@@ -27,8 +27,8 @@
     <p>
       Linki:
       <ol>
-        {% for url in content.links %}
-          <li><a href="{{ url }}">{{ url }}</a></li>
+        {% for link in content.links %}
+          <li><a href="{{ link.url }}">{{ link.text }}</a></li>
         {% endfor %}
       </ol>
     </p>

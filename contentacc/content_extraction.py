@@ -3,6 +3,8 @@ from collections import namedtuple
 import requests
 
 
+ExtractedLink = namedtuple('ExtractedLink', 'url text')
+
 ExtractedContent = namedtuple(
     'ExtractedContent',
     'title text image_urls links')
@@ -20,6 +22,13 @@ def div_class_paragraph_extractor(soup, cls):
     return result
 
 
+def link_extractor(soup):
+    # Only report links that have more than 4 words in the title
+    return [ExtractedLink(link.get('href'), link.get_text())
+            for link in soup.find_all('a')
+            if len(link.get_text().split()) > 4]
+
+
 def extract_content_from_url(url):
     r = requests.get(url)
     if r.status_code != 200:
@@ -31,4 +40,4 @@ def extract_content_from_url(url):
         title=soup.title.string,
         text=extracted_paragraphs,
         image_urls=[img.get('src') for img in soup.find_all('img')],
-        links=[link.get('href') for link in soup.find_all('a')])
+        links=link_extractor(soup))
