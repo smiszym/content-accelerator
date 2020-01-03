@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ content.title }} - Content Accelerator</title>
+</head>
+<body>
+  <h1>{{ content.title }}</h1>
+  <div>
+    <div>
+      Oryginalny artykuł: <a href="{{ url }}">{{ url }}</a>
+    </div>
+    <div>
+      <h2>Treść artykułu</h2>
+      {% for paragraph in content.text %}
+        <p>{{ paragraph }}</p>
+      {% endfor %}
+    </div>
+    <p>
+      Obrazki:
+      <ol>
+        {% for url in content.image_urls %}
+          <li><a href="{{ url }}">{{ url }}</a></li>
+        {% endfor %}
+      </ol>
+    </p>
+    <p>
+      Linki:
+      <ol>
+        {% for url in content.links %}
+          <li><a href="{{ url }}">{{ url }}</a></li>
+        {% endfor %}
+      </ol>
+    </p>
+  </div>
+</body>
+</html>
