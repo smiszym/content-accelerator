@@ -17,14 +17,6 @@
       {% endfor %}
     </div>
     <p>
-      Obrazki:
-      <ol>
-        {% for url in content.image_urls %}
-          <li><a href="{{ url }}">{{ url }}</a></li>
-        {% endfor %}
-      </ol>
-    </p>
-    <p>
       Linki:
       <ol>
         {% for link in content.links %}
@@ -33,5 +25,10 @@
       </ol>
     </p>
   </div>
+  <form action="/minimized-page" method="get">
+    Chcesz przeczytać inny artykuł? Podaj adres strony internetowej:<br>
+    <input type="url" name="url"><br>
+    <input type="submit" value="Idź">
+  </form>
 </body>
 </html>
