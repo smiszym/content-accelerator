@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
 from collections import namedtuple
 import requests
+import urllib.parse
 
 
-ExtractedLink = namedtuple('ExtractedLink', 'url text')
+ExtractedLink = namedtuple('ExtractedLink', 'url url_quoted text')
 
 ExtractedContent = namedtuple(
     'ExtractedContent',
@@ -24,7 +25,10 @@ def div_class_paragraph_extractor(soup, cls):
 
 def link_extractor(soup):
     # Only report links that have more than 4 words in the title
-    return [ExtractedLink(link.get('href'), link.get_text())
+    return [ExtractedLink(
+                link.get('href'),
+                urllib.parse.quote_plus(link.get('href')),
+                link.get_text())
             for link in soup.find_all('a')
             if len(link.get_text().split()) > 4]
 

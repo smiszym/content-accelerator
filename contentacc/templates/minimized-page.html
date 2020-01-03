@@ -20,7 +20,7 @@
       Linki:
       <ol>
         {% for link in content.links %}
-          <li><a href="{{ link.url }}">{{ link.text }}</a></li>
+          <li><a href="/minimized-page?url={{ link.url_quoted }}">{{ link.text }}</a> <a href="{{ link.url }}">(oryginał)</a></li>
         {% endfor %}
       </ol>
     </p>
