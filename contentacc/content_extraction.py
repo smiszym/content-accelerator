@@ -23,6 +23,18 @@ def div_class_paragraph_extractor(soup, cls):
     return result
 
 
+def div_id_paragraph_extractor(soup, id):
+    result = []
+    for match in soup.find_all(id=id):
+        paragraphs = match.find_all('p')
+        if len(paragraphs) > 0:
+            for paragraph in paragraphs:
+                result.append(paragraph.get_text())
+        else:
+            result.append(match.get_text())
+    return result
+
+
 def link_extractor(soup):
     # Only report links that have more than 4 words in the title
     return [ExtractedLink(
@@ -40,6 +52,10 @@ def extract_content_from_url(url):
         return
     soup = BeautifulSoup(r.text, 'html.parser')
     extracted_paragraphs = div_class_paragraph_extractor(
+        soup, ['article--text', 'articleBody', 'art_content',
+               'article-story-content', 'article-body',
+               'article_body'])
+    extracted_paragraphs += div_id_paragraph_extractor(
         soup, ['article--text', 'articleBody', 'art_content',
                'article-story-content', 'article-body',
                'article_body'])
