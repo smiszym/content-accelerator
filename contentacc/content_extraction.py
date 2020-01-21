@@ -30,7 +30,8 @@ def link_extractor(soup):
                 urllib.parse.quote_plus(link.get('href')),
                 link.get_text())
             for link in soup.find_all('a')
-            if len(link.get_text().split()) > 4]
+            if len(link.get_text().split()) > 4
+            and link.get('href').startswith('http')]
 
 
 def extract_content_from_url(url):
