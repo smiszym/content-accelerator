@@ -39,7 +39,9 @@ def extract_content_from_url(url):
         return
     soup = BeautifulSoup(r.text, 'html.parser')
     extracted_paragraphs = div_class_paragraph_extractor(
-        soup, ['article--text', 'articleBody', 'art_content'])
+        soup, ['article--text', 'articleBody', 'art_content',
+               'article-story-content', 'article-body',
+               'article_body'])
     return ExtractedContent(
         title=soup.title.string,
         text=extracted_paragraphs,
