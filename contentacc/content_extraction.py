@@ -1,49 +1,14 @@
 from bs4 import BeautifulSoup
 from collections import namedtuple
+from contentacc.extractors.link import link_extractor
+from contentacc.extractors.paragraph import \
+    div_class_paragraph_extractor, div_id_paragraph_extractor
 import requests
-import urllib.parse
 
-
-ExtractedLink = namedtuple('ExtractedLink', 'url url_quoted text')
 
 ExtractedContent = namedtuple(
     'ExtractedContent',
     'title text image_urls links')
-
-
-def div_class_paragraph_extractor(soup, cls):
-    result = []
-    for match in soup.find_all(class_=cls):
-        paragraphs = match.find_all('p')
-        if len(paragraphs) > 0:
-            for paragraph in paragraphs:
-                result.append(paragraph.get_text())
-        else:
-            result.append(match.get_text())
-    return result
-
-
-def div_id_paragraph_extractor(soup, id):
-    result = []
-    for match in soup.find_all(id=id):
-        paragraphs = match.find_all('p')
-        if len(paragraphs) > 0:
-            for paragraph in paragraphs:
-                result.append(paragraph.get_text())
-        else:
-            result.append(match.get_text())
-    return result
-
-
-def link_extractor(soup):
-    # Only report links that have more than 4 words in the title
-    return [ExtractedLink(
-                link.get('href'),
-                urllib.parse.quote_plus(link.get('href')),
-                link.get_text())
-            for link in soup.find_all('a')
-            if len(link.get_text().split()) > 4
-            and link.get('href').startswith('http')]
 
 
 def extract_content_from_url(url):
