@@ -23,7 +23,7 @@ def extract_content_from_url(url):
     extracted_paragraphs += div_id_paragraph_extractor(
         soup, ['article--text', 'articleBody', 'art_content',
                'article-story-content', 'article-body',
-               'article_body'])
+               'article_body', 'bodyContent'])
     return ExtractedContent(
         title=soup.title.string,
         text=extracted_paragraphs,
