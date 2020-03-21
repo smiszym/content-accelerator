@@ -16,16 +16,16 @@ def extract_content_from_url(url):
     if r.status_code != 200:
         return
     soup = BeautifulSoup(r.text, 'html.parser')
-    extracted_paragraphs = div_class_paragraph_extractor(
+    extracted_paragraphs = list(div_class_paragraph_extractor(
         soup, ['article--text', 'articleBody', 'art_content',
                'article-story-content', 'article-body',
-               'article_body'])
-    extracted_paragraphs += div_id_paragraph_extractor(
+               'article_body']))
+    extracted_paragraphs += list(div_id_paragraph_extractor(
         soup, ['article--text', 'articleBody', 'art_content',
                'article-story-content', 'article-body',
-               'article_body', 'bodyContent'])
+               'article_body', 'bodyContent']))
     return ExtractedContent(
         title=soup.title.string,
         text=extracted_paragraphs,
         image_urls=[img.get('src') for img in soup.find_all('img')],
-        links=link_extractor(soup))
+        links=list(link_extractor(soup)))
