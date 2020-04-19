@@ -3,6 +3,7 @@ from collections import namedtuple
 from contentacc.extractors.link import link_extractor
 from contentacc.extractors.paragraph import \
     div_class_paragraph_extractor, div_id_paragraph_extractor
+import redis
 import requests
 from functools import wraps
 from typing import Optional
@@ -17,19 +18,22 @@ ExtractedContent = namedtuple(
     'title text image_urls links')
 
 
+html_cache = redis.Redis(
+    host='localhost', port=6379, db=0, decode_responses=True)
+
+
 def cache_response(f):
-    responses = {}
     @wraps(f)
     def wrapper(url, cache_only=False):
-        try:
-            response = responses[url]
+        response = html_cache.get(url)
+        if response is not None:
             logging.info("Retrieved HTTP response from cache")
             return response
-        except KeyError:
+        else:
             if not cache_only:
-                r = f(url)
-                responses[url] = r
                 logging.info("HTTP response not found in cache, downloading")
+                r = f(url)
+                html_cache.set(url, r)
                 return r
     return wrapper
 
