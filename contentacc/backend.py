@@ -7,17 +7,10 @@ from contentacc.content_extraction import extract_content_from_url
 app = Flask(__name__)
 
 
-@app.route('/')
-def hello():
-    return render_template(
-        'index.html',
-        generation_timestamp=str(datetime.now()))
-
-
-@app.route('/minimized-page', methods=['GET'])
-def minimized_page():
+@app.route('/', methods=['GET'])
+def index():
     url = request.args.get('url')
     return render_template(
-        'minimized-page.html',
+        'index.html',
         url=url,
         content=extract_content_from_url(url) if url is not None else None)
