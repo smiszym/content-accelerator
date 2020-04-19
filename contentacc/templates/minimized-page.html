@@ -2,9 +2,13 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>{{ content.title }} - Content Accelerator</title>
+  <title>
+    {% if content != None %}{{ content.title }} - {% endif %}
+    Content Accelerator
+  </title>
 </head>
 <body>
+  {% if content != None %}
   <h1>{{ content.title }}</h1>
   <div>
     <div>
@@ -25,8 +29,18 @@
       </ol>
     </p>
   </div>
+  {% else %}
+  <h1>Content Accelerator</h1>
+  <p>
+    To jest aplikacja wspomagająca dostęp do treści internetowych w warunkach
+    słabego łącza.
+  </p>
+  {% endif %}
   <form action="/minimized-page" method="get">
-    Chcesz przeczytać inny artykuł? Podaj adres strony internetowej:<br>
+    {% if content != None %}
+    Chcesz przeczytać inny artykuł?
+    {% endif %}
+    Podaj adres strony internetowej:<br>
     <input type="url" name="url"><br>
     <input type="submit" value="Idź">
   </form>

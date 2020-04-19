@@ -20,4 +20,4 @@ def minimized_page():
     return render_template(
         'minimized-page.html',
         url=url,
-        content=extract_content_from_url(url))
+        content=extract_content_from_url(url) if url is not None else None)
