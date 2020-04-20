@@ -17,6 +17,19 @@
       padding-left: 4%;
     }
   </style>
+  <script>
+    function loadPageFromUrl() {
+      const url = document.getElementById("dynamic-url").value;
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          document.getElementById("page-content").innerHTML = this.responseText;
+        }
+      };
+      xhttp.open("GET", "/minimized-page?url=" + encodeURIComponent(url), true);
+      xhttp.send();
+    }
+  </script>
 </head>
 <body>
   <div id="main">
@@ -54,6 +67,13 @@
       <input type="url" name="url"><br>
       <input type="submit" value="Idź">
     </form>
+    <div id="page-content">
+    </div>
+    <div>
+      Podaj adres strony internetowej do dynamicznego załadowania:
+      <input id="dynamic-url" type="url"><br>
+      <button onclick="loadPageFromUrl()">Załaduj</button>
+    </div>
   </div>
 </body>
 </html>

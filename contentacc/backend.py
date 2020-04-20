@@ -14,3 +14,12 @@ def index():
         'index.html',
         url=url,
         content=extract_content_from_url(url) if url is not None else None)
+
+
+@app.route('/minimized-page', methods=['GET'])
+def minimized_page():
+    url = request.args.get('url')
+    if url is None:
+        return "(not found)"
+    paragraphs = extract_content_from_url(url).text
+    return "".join("<p>" + p + "</p>\n" for p in paragraphs)
