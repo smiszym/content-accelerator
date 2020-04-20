@@ -23,7 +23,9 @@
       const xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-          document.getElementById("page-content").innerHTML = this.responseText;
+          content = JSON.parse(this.responseText);
+          document.getElementById("page-content").innerHTML =
+            "<p>" + content.text.join("</p>\n<p>") + "</p>";
         }
       };
       xhttp.open("GET", "/minimized-page?url=" + encodeURIComponent(url), true);

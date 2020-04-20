@@ -3,6 +3,7 @@ from collections import namedtuple
 from contentacc.extractors.link import link_extractor
 from contentacc.extractors.paragraph import \
     div_class_paragraph_extractor, div_id_paragraph_extractor
+import json
 import redis
 import requests
 from functools import wraps
@@ -13,9 +14,14 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
-ExtractedContent = namedtuple(
-    'ExtractedContent',
-    'title text image_urls links')
+class ExtractedContent (namedtuple('ExtractedContent',
+                                   'title text image_urls links')):
+    def to_json(self):
+        return json.dumps({
+            "title": self.title,
+            "text": self.text,
+            "image_urls": self.image_urls,
+            "links": self.links})
 
 
 html_cache = redis.Redis(

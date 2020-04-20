@@ -20,6 +20,5 @@ def index():
 def minimized_page():
     url = request.args.get('url')
     if url is None:
-        return "(not found)"
-    paragraphs = extract_content_from_url(url).text
-    return "".join("<p>" + p + "</p>\n" for p in paragraphs)
+        return '{"error": "not found"}'
+    return extract_content_from_url(url).to_json()
