@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  padding: 1.5em;
+}
+
+#main {
+  width: 40em;
+  padding-left: 4%;
+}
