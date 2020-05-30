@@ -19,7 +19,7 @@ export class App extends Component {
         setState({ url: url, content: content });
       }
     };
-    xhttp.open("GET", "/minimized-page?url=" + encodeURIComponent(url), true);
+    xhttp.open("GET", "/v1/minimized-page?url=" + encodeURIComponent(url), true);
     xhttp.send();
   }
   render() {
