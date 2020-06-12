@@ -2,7 +2,12 @@ import urllib.parse
 from collections import namedtuple
 
 
-ExtractedLink = namedtuple('ExtractedLink', 'url url_quoted text')
+class ExtractedLink (namedtuple('ExtractedLink', 'url url_quoted text')):
+    def as_dict(self):
+        return {
+            "url": self.url,
+            "url_quoted": self.url_quoted,
+            "text": self.text}
 
 
 def link_extractor(soup):

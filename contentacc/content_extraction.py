@@ -21,7 +21,7 @@ class ExtractedContent (namedtuple('ExtractedContent',
             "title": self.title,
             "text": self.text,
             "image_urls": self.image_urls,
-            "links": self.links})
+            "links": [link.as_dict() for link in self.links]})
 
 
 html_cache = redis.Redis(

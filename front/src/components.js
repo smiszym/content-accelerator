@@ -80,7 +80,9 @@ class MainPageWithContent extends Component {
         <ol>
           {
             content.links.map((link, i) => {
-              return <li><a>{link[2]}</a> <a href={link[0]}>(oryginał)</a></li>;
+              return <li>
+                <a>{link.text}</a> <a href={link.url}>(oryginał)</a>
+              </li>;
             })
           }
         </ol>
