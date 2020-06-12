@@ -1,5 +1,5 @@
 from contentacc.extractors.content import DivParagraphContentExtractor, \
-    ExtractedContent
+    ExtractedContent, MediaWikiContentExtractor
 from contentacc.rating.rating import DummyContentRating
 import logging
 import redis
@@ -57,7 +57,7 @@ def get_response(url: str) -> Optional[str]:
 @cache_content
 def extract_content_from_html(url, response_text) -> ExtractedContent:
     _ = url  # url is needed because this function is wrapped in cache_content
-    extractors = [DivParagraphContentExtractor()]
+    extractors = [MediaWikiContentExtractor()]
     rating_providers = [DummyContentRating()]
     extracted_content = []
     for extractor in extractors:

@@ -27,11 +27,7 @@ class ContentView extends Component {
   render() {
     return <div id="page-content">
       <h2>Treść artykułu</h2>
-      {
-        this.props.content.text.map((paragraph, i) => {
-          return <p>{paragraph}</p>;
-        })
-      }
+      {this.props.content.text}
     </div>;
   }
 }

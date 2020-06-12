@@ -34,6 +34,18 @@ class DivParagraphContentExtractor(ContentExtractor):
                    'article_body', 'bodyContent']))
         return ExtractedContent(
             title=soup.title.string,
-            text=extracted_paragraphs,
+            text='\n'.join(f"<p>{par}</p>" for par in extracted_paragraphs),
             image_urls=[img.get('src') for img in soup.find_all('img')],
             links=list(link_extractor(soup)))
+
+
+class MediaWikiContentExtractor(ContentExtractor):
+    def __call__(self, response_text):
+        soup = BeautifulSoup(response_text, 'html.parser')
+        article_root = soup.find(class_='mw-parser-output')
+        text = article_root.get_text()
+        return ExtractedContent(
+            title=soup.title.string,
+            text=text,
+            image_urls=[img.get('src') for img in soup.find_all('img')],
+            links=[])
