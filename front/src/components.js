@@ -29,7 +29,10 @@ class ContentView extends Component {
     return <div id="page-content">
       <h2>Treść artykułu</h2>
       <div dangerouslySetInnerHTML={{
-        __html: sanitizeHtml(this.props.content.text)}} />
+        __html: sanitizeHtml(this.props.content.text, {
+                  allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+                    'dl', 'dt', 'dd'])
+                })}} />
     </div>;
   }
 }
