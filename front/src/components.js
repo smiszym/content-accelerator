@@ -75,7 +75,7 @@ class MainPageWithContent extends Component {
         Oryginalny artykuł: <a href={this.props.url}>{this.props.url}</a>
       </div>
       <ContentView content={this.props.content} />
-      <p>
+      <div>
         Linki:
         <ol>
           {
@@ -86,7 +86,7 @@ class MainPageWithContent extends Component {
             })
           }
         </ol>
-      </p>
+      </div>
       <NewUrlPrompt loadPageFromUrl={this.props.loadPageFromUrl} />
       <AvailableSpaceView />
     </div>;
