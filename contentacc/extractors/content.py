@@ -43,7 +43,7 @@ class MediaWikiContentExtractor(ContentExtractor):
     def __call__(self, response_text):
         soup = BeautifulSoup(response_text, 'html.parser')
         article_root = soup.find(class_='mw-parser-output')
-        text = article_root.get_text()
+        text = article_root.decode_contents()
         return ExtractedContent(
             title=soup.title.string,
             text=text,

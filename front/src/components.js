@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import sanitizeHtml from 'sanitize-html';
 
 class AvailableSpaceView extends Component {
   constructor(props) {
@@ -27,7 +28,8 @@ class ContentView extends Component {
   render() {
     return <div id="page-content">
       <h2>Treść artykułu</h2>
-      {this.props.content.text}
+      <div dangerouslySetInnerHTML={{
+        __html: sanitizeHtml(this.props.content.text)}} />
     </div>;
   }
 }
