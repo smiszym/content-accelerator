@@ -1,27 +1,15 @@
-from bs4 import BeautifulSoup
-from collections import namedtuple
-from contentacc.extractors.link import link_extractor
-from contentacc.extractors.paragraph import \
-    div_class_paragraph_extractor, div_id_paragraph_extractor
-import json
+from contentacc.extractors.content import DivParagraphContentExtractor, \
+    ExtractedContent
+from contentacc.rating.rating import DummyContentRating
+import logging
 import redis
 import requests
 from functools import wraps
+import statistics
 from typing import Optional
-import logging
 
 
 logging.basicConfig(level=logging.INFO)
-
-
-class ExtractedContent (namedtuple('ExtractedContent',
-                                   'title text image_urls links')):
-    def to_json(self):
-        return json.dumps({
-            "title": self.title,
-            "text": self.text,
-            "image_urls": self.image_urls,
-            "links": [link.as_dict() for link in self.links]})
 
 
 html_cache = redis.Redis(
@@ -69,20 +57,15 @@ def get_response(url: str) -> Optional[str]:
 @cache_content
 def extract_content_from_html(url, response_text) -> ExtractedContent:
     _ = url  # url is needed because this function is wrapped in cache_content
-    soup = BeautifulSoup(response_text, 'html.parser')
-    extracted_paragraphs = list(div_class_paragraph_extractor(
-        soup, ['article--text', 'articleBody', 'art_content',
-               'article-story-content', 'article-body',
-               'article_body']))
-    extracted_paragraphs += list(div_id_paragraph_extractor(
-        soup, ['article--text', 'articleBody', 'art_content',
-               'article-story-content', 'article-body',
-               'article_body', 'bodyContent']))
-    return ExtractedContent(
-        title=soup.title.string,
-        text=extracted_paragraphs,
-        image_urls=[img.get('src') for img in soup.find_all('img')],
-        links=list(link_extractor(soup)))
+    extractors = [DivParagraphContentExtractor()]
+    rating_providers = [DummyContentRating()]
+    extracted_content = []
+    for extractor in extractors:
+        content = extractor(response_text)
+        rating = statistics.mean(rating(content) for rating in rating_providers)
+        extracted_content.append((content, rating))
+    best_content, _ = max(extracted_content, key=lambda x: x[1])
+    return best_content
 
 
 def extract_content_from_url(url: str) -> ExtractedContent:
