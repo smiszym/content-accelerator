@@ -51,7 +51,7 @@ def cache_content(f):
         if bypass_cache or not contents.get(url):
             c = f(url, response_text)
             contents[url] = c
-            logging.info("Extracted content now")
+            logging.info("Extracted content for HTTP response now")
             return c
         logging.info("Retrieving extracted content from cache")
         return contents[url]
