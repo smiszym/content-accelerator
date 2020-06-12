@@ -59,7 +59,7 @@ def cache_content(f):
 
 
 @cache_response
-def get_response(url: str, **kwargs) -> Optional[str]:
+def get_response(url: str) -> Optional[str]:
     r = requests.get(url)
     if r.status_code != 200:
         return None
@@ -67,7 +67,8 @@ def get_response(url: str, **kwargs) -> Optional[str]:
 
 
 @cache_content
-def extract_content_from_html(url, response_text, **kwargs) -> ExtractedContent:
+def extract_content_from_html(url, response_text) -> ExtractedContent:
+    _ = url  # url is needed because this function is wrapped in cache_content
     soup = BeautifulSoup(response_text, 'html.parser')
     extracted_paragraphs = list(div_class_paragraph_extractor(
         soup, ['article--text', 'articleBody', 'art_content',
