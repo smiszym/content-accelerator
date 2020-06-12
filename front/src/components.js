@@ -30,8 +30,22 @@ class ContentView extends Component {
       <h2>Treść artykułu</h2>
       <div dangerouslySetInnerHTML={{
         __html: sanitizeHtml(this.props.content.text, {
-                  allowedTags: sanitizeHtml.defaults.allowedTags.concat([
-                    'dl', 'dt', 'dd'])
+                  allowedTags: sanitizeHtml.defaults.allowedTags.concat(
+                    ['dl', 'dt', 'dd']),
+                  allowedAttributes: {
+                    a: ['href', 'onclick']
+                  },
+                  transformTags: {
+                    'a': function(tagName, attribs) {
+                      return {
+                        tagName: 'a',
+                        attribs: {
+                          href: attribs.href,
+                          onclick: 'return false;'
+                        }
+                      };
+                    }
+                  }
                 })}} />
     </div>;
   }
