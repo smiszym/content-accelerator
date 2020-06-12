@@ -1,8 +1,11 @@
 from bs4 import BeautifulSoup
 from collections import namedtuple
+
+from contentacc.bs_utils import rewrite_link_targets
 from contentacc.extractors.link import link_extractor
 from contentacc.extractors.paragraph import \
     div_class_paragraph_extractor, div_id_paragraph_extractor
+from contentacc.url_utils import supply_scheme_and_netloc
 import json
 
 
@@ -17,12 +20,12 @@ class ExtractedContent (namedtuple('ExtractedContent',
 
 
 class ContentExtractor:
-    def __call__(self, response_text):
+    def __call__(self, url, response_text):
         raise NotImplementedError
 
 
 class DivParagraphContentExtractor(ContentExtractor):
-    def __call__(self, response_text):
+    def __call__(self, _, response_text):
         soup = BeautifulSoup(response_text, 'html.parser')
         extracted_paragraphs = list(div_class_paragraph_extractor(
             soup, ['article--text', 'articleBody', 'art_content',
@@ -40,9 +43,10 @@ class DivParagraphContentExtractor(ContentExtractor):
 
 
 class MediaWikiContentExtractor(ContentExtractor):
-    def __call__(self, response_text):
+    def __call__(self, url, response_text):
         soup = BeautifulSoup(response_text, 'html.parser')
         article_root = soup.find(class_='mw-parser-output')
+        rewrite_link_targets(soup, lambda x: supply_scheme_and_netloc(x, url))
         text = article_root.decode_contents()
         return ExtractedContent(
             title=soup.title.string,

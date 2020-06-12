@@ -56,12 +56,11 @@ def get_response(url: str) -> Optional[str]:
 
 @cache_content
 def extract_content_from_html(url, response_text) -> ExtractedContent:
-    _ = url  # url is needed because this function is wrapped in cache_content
     extractors = [MediaWikiContentExtractor()]
     rating_providers = [DummyContentRating()]
     extracted_content = []
     for extractor in extractors:
-        content = extractor(response_text)
+        content = extractor(url, response_text)
         rating = statistics.mean(rating(content) for rating in rating_providers)
         extracted_content.append((content, rating))
     best_content, _ = max(extracted_content, key=lambda x: x[1])
