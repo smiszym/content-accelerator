@@ -13,10 +13,13 @@ export class App extends Component {
     if (this.props.initialUrl)
       this.loadPageFromUrl(this.props.initialUrl);
   }
-  loadPageFromUrl(url) {
+  loadPageFromUrl(url, bypassPushState) {
+    bypassPushState = bypassPushState || false;
     axios.get('/v1/minimized-page', { params: { url: url } })
     .then(response => {
       this.setState({ url: url, content: response.data });
+      if (!bypassPushState)
+        history.pushState(undefined, "", "?url=" + encodeURIComponent(url));
     })
     .catch(error => {
       // TODO Handle the failure (404/500, etc will land here)

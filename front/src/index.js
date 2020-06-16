@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom';
 
 import { App } from './App';
 
-const initialUrl = new URL(window.location.href).searchParams.get("url");
+function retrieveTargetLocationFromUrl(url) {
+  return new URL(url).searchParams.get("url");
+}
 
-ReactDOM.render(
+const initialUrl = retrieveTargetLocationFromUrl(window.location.href);
+const app = ReactDOM.render(
   <App initialUrl={initialUrl} />,
-  document.getElementById('app')
-);
+  document.getElementById('app'));
+
+window.onpopstate = function(event) {
+  app.loadPageFromUrl(
+    retrieveTargetLocationFromUrl(window.location.href),
+    true);
+};
 
 module.hot.accept();
