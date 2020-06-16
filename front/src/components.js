@@ -32,6 +32,7 @@ class ContentView extends Component {
         ['dl', 'dt', 'dd'])
     });
     const elements = parse(sanitizedHtml, {
+      trim: true,
       replace: domNode => {
         if (domNode.type === "tag" && domNode.name === "a" && domNode.attribs
             && domNode.children.length === 1
