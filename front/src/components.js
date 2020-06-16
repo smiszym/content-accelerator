@@ -29,23 +29,24 @@ class ContentView extends Component {
   render() {
     const sanitizedHtml = sanitizeHtml(this.props.content.text, {
       allowedTags: sanitizeHtml.defaults.allowedTags.concat(
-        ['dl', 'dt', 'dd']),
-      allowedAttributes: {
-        a: ['href', 'onclick']
-      },
-      transformTags: {
-        'a': function(tagName, attribs) {
-          return {
-            tagName: 'a',
-            attribs: {
-              href: attribs.href,
-              onclick: 'return false;'
-            }
-          };
+        ['dl', 'dt', 'dd'])
+    });
+    const elements = parse(sanitizedHtml, {
+      replace: domNode => {
+        if (domNode.type === "tag" && domNode.name === "a" && domNode.attribs
+            && domNode.children.length === 1
+            && domNode.children[0].type === "text") {
+          return <a
+              href={domNode.attribs.href}
+              onClick={evt => {
+                this.props.loadPageFromUrl(domNode.attribs.href);
+                evt.preventDefault();
+              }} >
+            {domNode.children[0].data}
+          </a>;
         }
       }
     });
-    const elements = parse(sanitizedHtml);
     return <div id="page-content">
       <h2>Treść artykułu</h2>
       <div>
@@ -93,7 +94,9 @@ class MainPageWithContent extends Component {
       <div>
         Oryginalny artykuł: <a href={this.props.url}>{this.props.url}</a>
       </div>
-      <ContentView content={this.props.content} />
+      <ContentView
+        content={this.props.content}
+        loadPageFromUrl={this.props.loadPageFromUrl} />
       <div>
         Linki:
         <ol>
