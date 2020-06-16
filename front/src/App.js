@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { MainPage } from './components';
+import { CacheService } from './CacheService';
 import { FetchService } from './FetchService';
 
 export class App extends Component {
@@ -15,7 +16,7 @@ export class App extends Component {
   }
   loadPageFromUrl(url, bypassPushState) {
     bypassPushState = bypassPushState || false;
-    FetchService.fetchContent(url)
+    CacheService.getFromCacheOrFetch(url, FetchService.fetchContent)
     .then(content => {
       this.setState({ url: url, content: content });
       if (!bypassPushState)
