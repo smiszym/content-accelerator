@@ -10,6 +10,8 @@ export class App extends Component {
       url: undefined,
       content: undefined,
     };
+    if (this.props.initialUrl)
+      this.loadPageFromUrl(this.props.initialUrl);
   }
   loadPageFromUrl(url) {
     axios.get('/v1/minimized-page', { params: { url: url } })
