@@ -28,23 +28,23 @@ class AvailableSpaceView extends Component {
 class ContentView extends Component {
   render() {
     const sanitizedHtml = sanitizeHtml(this.props.content.text, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(
-          ['dl', 'dt', 'dd']),
-        allowedAttributes: {
-          a: ['href', 'onclick']
-        },
-        transformTags: {
-          'a': function(tagName, attribs) {
-            return {
-              tagName: 'a',
-              attribs: {
-                href: attribs.href,
-                onclick: 'return false;'
-              }
-            };
-          }
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(
+        ['dl', 'dt', 'dd']),
+      allowedAttributes: {
+        a: ['href', 'onclick']
+      },
+      transformTags: {
+        'a': function(tagName, attribs) {
+          return {
+            tagName: 'a',
+            attribs: {
+              href: attribs.href,
+              onclick: 'return false;'
+            }
+          };
         }
-      });
+      }
+    });
     const elements = parse(sanitizedHtml);
     return <div id="page-content">
       <h2>Treść artykułu</h2>
