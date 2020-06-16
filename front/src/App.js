@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 
 import { MainPage } from './components';
@@ -11,16 +12,16 @@ export class App extends Component {
     };
   }
   loadPageFromUrl(url) {
-    const xhttp = new XMLHttpRequest();
-    const setState = (state) => { this.setState(state); };
-    xhttp.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        const content = JSON.parse(this.responseText);
-        setState({ url: url, content: content });
-      }
-    };
-    xhttp.open("GET", "/v1/minimized-page?url=" + encodeURIComponent(url), true);
-    xhttp.send();
+    axios.get('/v1/minimized-page', { params: { url: url } })
+    .then(response => {
+      this.setState({ url: url, content: response.data });
+    })
+    .catch(error => {
+      // TODO Handle the failure (404/500, etc will land here)
+    })
+    .finally(() => {
+      // TODO Schedule requesting next page to fill the cache
+    });
   }
   render() {
     return <MainPage
