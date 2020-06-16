@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import parse from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
 
 class AvailableSpaceView extends Component {
@@ -44,9 +45,12 @@ class ContentView extends Component {
           }
         }
       });
+    const elements = parse(sanitizedHtml);
     return <div id="page-content">
       <h2>Treść artykułu</h2>
-      <div dangerouslySetInnerHTML={ {__html: sanitizedHtml} } />
+      <div>
+        {elements}
+      </div>
     </div>;
   }
 }
