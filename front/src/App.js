@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 
 import { MainPage } from './components';
+import { FetchService } from './FetchService';
 
 export class App extends Component {
   constructor(props) {
@@ -15,13 +15,13 @@ export class App extends Component {
   }
   loadPageFromUrl(url, bypassPushState) {
     bypassPushState = bypassPushState || false;
-    axios.get('/v1/minimized-page', { params: { url: url } })
-    .then(response => {
-      this.setState({ url: url, content: response.data });
+    FetchService.fetchContent(url)
+    .then(content => {
+      this.setState({ url: url, content: content });
       if (!bypassPushState)
         history.pushState(undefined, "", "?url=" + encodeURIComponent(url));
     })
-    .catch(error => {
+    .catch(responseStatus => {
       // TODO Handle the failure (404/500, etc will land here)
     })
     .finally(() => {
