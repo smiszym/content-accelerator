@@ -8,6 +8,10 @@ body {
   padding-left: 4%;
 }
 
+#content-title {
+  text-align: center;
+}
+
 .content-view {
   color: #452608;
   background-color: #fffff5;

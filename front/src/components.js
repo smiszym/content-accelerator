@@ -51,11 +51,8 @@ class ContentView extends Component {
         }
       }
     });
-    return <div>
-      <h2>Treść artykułu</h2>
-      <div className="content-view">
-        {elements}
-      </div>
+    return <div className="content-view">
+      {elements}
     </div>;
   }
 }
@@ -79,7 +76,7 @@ class MainPageWithoutContent extends Component {
   render() {
     return <div>
       <LoadingStateIndicator loadingState={this.props.loadingState} />
-      <h1>Content Accelerator</h1>
+      <h1 id="content-title">Content Accelerator</h1>
       <p>
         To jest aplikacja wspomagająca dostęp do treści internetowych w warunkach
         słabego łącza.
@@ -96,10 +93,7 @@ class MainPageWithContent extends Component {
 
     return <div>
       <LoadingStateIndicator loadingState={this.props.loadingState} />
-      <h1>{content.title}</h1>
-      <div>
-        Oryginalny artykuł: <a href={this.props.url}>{this.props.url}</a>
-      </div>
+      <h1 id="content-title">{content.title}</h1>
       <ContentView
         content={this.props.content}
         loadPageFromUrl={this.props.loadPageFromUrl} />
@@ -114,6 +108,9 @@ class MainPageWithContent extends Component {
             })
           }
         </ol>
+      </div>
+      <div>
+        Oryginalny artykuł: <a href={this.props.url}>{this.props.url}</a>
       </div>
       <NewUrlPrompt loadPageFromUrl={this.props.loadPageFromUrl} />
       <AvailableSpaceView />
