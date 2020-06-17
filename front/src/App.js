@@ -8,6 +8,7 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: 'none',
       url: undefined,
       content: undefined,
     };
@@ -16,21 +17,30 @@ export class App extends Component {
   }
   loadPageFromUrl(url, bypassPushState) {
     bypassPushState = bypassPushState || false;
-    CacheService.getFromCacheOrFetch(url, FetchService.fetchContent)
-    .then(content => {
-      this.setState({ url: url, content: content });
-      if (!bypassPushState)
-        history.pushState(undefined, "", "?url=" + encodeURIComponent(url));
-    })
-    .catch(responseStatus => {
-      // TODO Handle the failure (404/500, etc will land here)
-    })
-    .finally(() => {
-      // TODO Schedule requesting next page to fill the cache
-    });
+
+    // First check if the page is already cached
+    CacheService.isInCache(url)
+      .then(isAvailable => {
+        if (!isAvailable) {
+          this.setState({ loading: 'fetch' });
+        }
+        CacheService.getFromCacheOrFetch(url, FetchService.fetchContent)
+        .then(content => {
+          this.setState({ loading: 'none', url: url, content: content });
+          if (!bypassPushState)
+            history.pushState(undefined, "", "?url=" + encodeURIComponent(url));
+        })
+        .catch(responseStatus => {
+          // TODO Handle the failure (404/500, etc will land here)
+        })
+        .finally(() => {
+          // TODO Schedule requesting next page to fill the cache
+        });
+      });
   }
   render() {
     return <MainPage
+             loadingState={this.state.loading}
              url={this.state.url}
              content={this.state.content}
              loadPageFromUrl={url => this.loadPageFromUrl(url)} />;

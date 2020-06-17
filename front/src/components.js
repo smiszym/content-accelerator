@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import parse from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
+import { LoadingStateIndicator } from "./LoadingStateIndicator";
 
 class AvailableSpaceView extends Component {
   constructor(props) {
@@ -74,6 +75,7 @@ class NewUrlPrompt extends Component {
 class MainPageWithoutContent extends Component {
   render() {
     return <div>
+      <LoadingStateIndicator loadingState={this.props.loadingState} />
       <h1>Content Accelerator</h1>
       <p>
         To jest aplikacja wspomagająca dostęp do treści internetowych w warunkach
@@ -90,6 +92,7 @@ class MainPageWithContent extends Component {
     const content = this.props.content;
 
     return <div>
+      <LoadingStateIndicator loadingState={this.props.loadingState} />
       <h1>{content.title}</h1>
       <div>
         Oryginalny artykuł: <a href={this.props.url}>{this.props.url}</a>
@@ -119,9 +122,11 @@ export class MainPage extends Component {
   render() {
     return this.props.content
       ? <MainPageWithContent
+          loadingState={this.props.loadingState}
           content={this.props.content}
           loadPageFromUrl={this.props.loadPageFromUrl} />
       : <MainPageWithoutContent
+          loadingState={this.props.loadingState}
           loadPageFromUrl={this.props.loadPageFromUrl} />;
   }
 }
