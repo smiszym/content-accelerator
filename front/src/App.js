@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { MainPage } from './components';
+import { MainPage } from './MainPage';
 import { CacheService } from './CacheService';
 import { FetchService } from './FetchService';
 
