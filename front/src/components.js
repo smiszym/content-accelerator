@@ -51,9 +51,9 @@ class ContentView extends Component {
         }
       }
     });
-    return <div id="page-content">
+    return <div>
       <h2>Treść artykułu</h2>
-      <div>
+      <div className="content-view">
         {elements}
       </div>
     </div>;

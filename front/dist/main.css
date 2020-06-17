@@ -8,6 +8,20 @@ body {
   padding-left: 4%;
 }
 
+.content-view {
+  color: #452608;
+  background-color: #fffff5;
+  padding: 1.3em;
+  border-style: dashed;
+  border-color: #452608;
+  border-width: 2px;
+}
+
+.content-view a {
+  color: #3f5e93;
+  text-decoration: none;
+}
+
 #loading-state-indicator {
   position: fixed;
   top: 0;
