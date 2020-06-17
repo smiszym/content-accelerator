@@ -13,3 +13,8 @@ body {
   top: 0;
   right: 0;
 }
+
+.page-altered {
+  font-size: 60%;
+  background-color: #fad7cf;
+}

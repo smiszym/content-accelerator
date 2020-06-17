@@ -45,6 +45,9 @@ class ContentView extends Component {
               }} >
             {domNode.children[0].data}
           </a>;
+        } else if (domNode.type === "tag" && domNode.name === "table") {
+          // Remove entire tables from the document
+          return <span className="page-altered table-removed">(ukryto tabelę)</span>;
         }
       }
     });
