@@ -7,3 +7,9 @@ body {
   width: 40em;
   padding-left: 4%;
 }
+
+#loading-state-indicator {
+  position: fixed;
+  top: 0;
+  right: 0;
+}

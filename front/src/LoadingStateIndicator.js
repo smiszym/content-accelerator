@@ -8,7 +8,7 @@ export class LoadingStateIndicator extends Component {
         'fetch': 'The page you requested is being fetched from the server',
         'ready': 'The page you requested is ready to be displayed',
       };
-      return <div><strong>{mapping[this.props.loadingState]}</strong></div>;
+      return <div id="loading-state-indicator"><strong>{mapping[this.props.loadingState]}</strong></div>;
     } else {
       return null;
     }
