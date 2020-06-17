@@ -31,7 +31,8 @@ export class App extends Component {
             history.pushState(undefined, "", "?url=" + encodeURIComponent(url));
         })
         .catch(responseStatus => {
-          // TODO Handle the failure (404/500, etc will land here)
+          this.setState({ loading: 'failure' });
+          console.log("Failure (status code: " + responseStatus + ") to load URL " + url);
         })
         .finally(() => {
           // TODO Schedule requesting next page to fill the cache
