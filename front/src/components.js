@@ -124,6 +124,7 @@ export class MainPage extends Component {
       ? <MainPageWithContent
           loadingState={this.props.loadingState}
           content={this.props.content}
+          url={this.props.url}
           loadPageFromUrl={this.props.loadPageFromUrl} />
       : <MainPageWithoutContent
           loadingState={this.props.loadingState}
