@@ -1,11 +1,7 @@
 body {
-  margin: 0;
+  margin: 0 0 0 4%;
   padding: 1.5em;
-}
-
-#main {
-  width: 40em;
-  padding-left: 4%;
+  max-width: 50em;
 }
 
 #content-title {
@@ -15,6 +11,7 @@ body {
 .content-view {
   color: #452608;
   background-color: #fffff5;
+  max-width: 50em;
   padding: 1.3em;
   border-style: dashed;
   border-color: #452608;
