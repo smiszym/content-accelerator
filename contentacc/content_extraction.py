@@ -66,5 +66,5 @@ def extract_content_from_html(url, response_text) -> ExtractedContent:
 
 def extract_content_from_url(url: str) -> ExtractedContent:
     response_text = get_response(url)
-    extracted_content = extract_content_from_html(url, response_text, bypass_cache=True)
+    extracted_content = extract_content_from_html(url, response_text)
     return extracted_content
