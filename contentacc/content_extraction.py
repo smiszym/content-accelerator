@@ -9,9 +9,6 @@ import statistics
 from typing import Optional
 
 
-logging.basicConfig(level=logging.INFO)
-
-
 html_cache = redis.Redis(
     host='localhost', port=6379, db=0, decode_responses=True)
 

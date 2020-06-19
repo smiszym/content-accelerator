@@ -1,5 +1,12 @@
 from flask import Flask, request
 from contentacc.content_extraction import extract_content_from_url
+import logging
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(name)s: %(message)s')
+
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
