@@ -16,6 +16,9 @@ app = Flask(__name__)
 @app.route('/v1/minimized-page', methods=['GET'])
 def minimized_page():
     url = request.args.get('url')
+    logging.info("Got request for " + url)
     if url is None:
         return '{"error": "not found"}'
-    return extract_content_from_url(url).to_json()
+    response = extract_content_from_url(url).to_json()
+    logging.info("Sending response for " + url)
+    return response
