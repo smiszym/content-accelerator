@@ -8,9 +8,9 @@ export class NewUrlPrompt extends Component {
   render() {
     return <div>
       Podaj adres strony internetowej do dynamicznego załadowania:
-      <input type="url" value={this.state.url} onChange={evt => this.setState({ url: evt.target.value })} />
+      <input id="new-url" type="url" value={this.state.url} onChange={evt => this.setState({ url: evt.target.value })} />
       <br />
-      <button onClick={evt => this.props.loadPageFromUrl(this.state.url)}>Załaduj</button>
+      <button id="go" onClick={evt => this.props.loadPageFromUrl(this.state.url)}>Załaduj</button>
     </div>;
   }
 }
