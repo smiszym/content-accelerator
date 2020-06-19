@@ -52,8 +52,9 @@ class MediaWikiContentExtractor(ContentExtractor):
         cleaned_text = bleach.clean(
             text,
             strip=True,
-            tags=['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
-                  'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'abbr', 'code', 'hr', 'br', 'div',
+            attributes={'a': ['href']},
+            tags=['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'dl', 'dt', 'dd', 'sup',
+                  'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
                   'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe'])
         return ExtractedContent(
             title=soup.title.string,
