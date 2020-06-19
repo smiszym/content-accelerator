@@ -6,7 +6,7 @@ export class ContentView extends Component {
   render() {
     const sanitizedHtml = sanitizeHtml(this.props.content.text, {
       allowedTags: sanitizeHtml.defaults.allowedTags.concat(
-        ['dl', 'dt', 'dd', 'sup'])
+        ['h1', 'h2', 'dl', 'dt', 'dd', 'sup'])
     });
     const elements = parse(sanitizedHtml, {
       replace: domNode => {

@@ -1,3 +1,4 @@
+import bleach
 from bs4 import BeautifulSoup
 from collections import namedtuple
 
@@ -48,8 +49,14 @@ class MediaWikiContentExtractor(ContentExtractor):
         article_root = soup.find(class_='mw-parser-output')
         rewrite_link_targets(soup, lambda x: supply_scheme_and_netloc(x, url))
         text = article_root.decode_contents()
+        cleaned_text = bleach.clean(
+            text,
+            strip=True,
+            tags=['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
+                  'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'abbr', 'code', 'hr', 'br', 'div',
+                  'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe'])
         return ExtractedContent(
             title=soup.title.string,
-            text=text,
+            text=cleaned_text,
             image_urls=[img.get('src') for img in soup.find_all('img')],
             links=[])
