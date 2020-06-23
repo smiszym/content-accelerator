@@ -9,8 +9,20 @@ import statistics
 from typing import Optional
 
 
+def _setup_redis(redis):
+    redis.config_set('maxmemory-policy', 'allkeys-lru')
+    config = html_cache.config_get('maxmemory*')
+    if config['maxmemory'] == '0':
+        logging.error('Redis memory is unlimited. This is discouraged, you will experience performance issues')
+    if config['maxmemory-policy'] != 'allkeys-lru':
+        logging.error('Redis maxmemory-policy is expected to be "allkeys-lru"')
+
+
 html_cache = redis.Redis(
     host='localhost', port=6379, db=0, decode_responses=True)
+
+
+_setup_redis(html_cache)
 
 
 def cache_response(f):
