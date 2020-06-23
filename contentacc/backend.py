@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_gzip import Gzip
 from contentacc.content_extraction import extract_content_from_url
 import logging
 
@@ -11,6 +12,7 @@ logging.basicConfig(
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = Flask(__name__)
+gzip = Gzip(app)
 
 
 @app.route('/v1/minimized-page', methods=['GET'])
