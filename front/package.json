@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "double-ended-queue": "^2.1.0-0",
     "html-react-parser": "^0.13.0",
     "idb-keyval": "^3.2.0",
     "react": "^16.12.0",
