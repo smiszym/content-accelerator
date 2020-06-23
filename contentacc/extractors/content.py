@@ -67,6 +67,6 @@ class MediaWikiContentExtractor(ContentExtractor):
             title=soup.title.string,
             text=cleaned_text,
             image_urls=[img.get('src') for img in soup.find_all('img')],
-            links=[])
+            links=link_extractor(soup))
         logging.info("Finished media wiki processing")
         return result
