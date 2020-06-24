@@ -12,5 +12,8 @@ export const FetchQueueService = {
   dequeue: function() {
     return this.queue.dequeue();
   },
+  contains: function(url) {
+    return this.queue.toArray().includes(url);
+  },
   queue: new Deque()
 };

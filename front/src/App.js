@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { MainPage } from './MainPage';
 import { CacheService } from './CacheService';
-import { FetchService } from './FetchService';
+import { ContentRepository } from "./ContentRepository";
 
 export class App extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ export class App extends Component {
         if (!isAvailable) {
           this.setState({ loading: 'fetch' });
         }
-        CacheService.getFromCacheOrFetch(url, FetchService.fetchContent)
+        ContentRepository.getContent(url)
         .then(content => {
           this.setState({ loading: 'none', url: url, content: content });
           if (!bypassPushState)
