@@ -4,11 +4,11 @@ import {CacheService} from "./CacheService";
 
 export const FetchService = {
   initialize: function () {
-    this.fetchInBackground();
+    FetchService.fetchInBackground();
   },
   waitForFetch: function (url) {
     return new Promise((resolve, reject) => {
-      this.observers.push({url: url, resolve: resolve});
+      FetchService.observers.push({url: url, resolve: resolve});
     });
   },
   fetchInBackground: function () {
@@ -22,7 +22,7 @@ export const FetchService = {
             const content = response.data;
             CacheService.putToCache(FetchService.currentlyFetchedUrl, content);
             console.log("Put to cache: " + FetchService.currentlyFetchedUrl);
-            this.observers = this.observers.filter(observer => {
+            FetchService.observers = FetchService.observers.filter(observer => {
               if (observer.url === FetchService.currentlyFetchedUrl) {
                 observer.resolve(content);
                 return false;
