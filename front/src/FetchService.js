@@ -8,7 +8,7 @@ export const FetchService = {
   },
   waitForFetch: function (url) {
     return new Promise((resolve, reject) => {
-      FetchService.observers.push({url: url, resolve: resolve});
+      FetchService.observers.push({url: url, resolve: resolve, reject: reject});
     });
   },
   fetchInBackground: function () {
@@ -35,6 +35,14 @@ export const FetchService = {
           })
           .catch(error => {
             console.log("Error " + error.response.status + " while fetching " + FetchService.currentlyFetchedUrl);
+            FetchService.observers = FetchService.observers.filter(observer => {
+              if (observer.url === FetchService.currentlyFetchedUrl) {
+                observer.reject(error.response.status);
+                return false;
+              } else {
+                return true;
+              }
+            });
             FetchService.currentlyFetchedUrl = null;
             FetchService.fetchInBackground();
           });
