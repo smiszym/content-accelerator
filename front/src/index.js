@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { App } from './App';
+import {FetchService} from "./FetchService";
+
+FetchService.initialize();
 
 function retrieveTargetLocationFromUrl(url) {
   return new URL(url).searchParams.get("url");

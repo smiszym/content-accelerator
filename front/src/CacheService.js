@@ -9,6 +9,12 @@ export const CacheService = {
         });
     });
   },
+  putToCache: function (url, content) {
+    set(url, content)
+      .catch(err => {
+        // TODO Handle failure to write to the cache
+      });
+  },
   getFromCacheOrFetch: function (url, fetchingFunc) {
     return new Promise((resolve, reject) => {
       get(url)
