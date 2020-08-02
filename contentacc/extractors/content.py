@@ -51,6 +51,8 @@ class MediaWikiContentExtractor(ContentExtractor):
         soup = BeautifulSoup(response_text, 'html.parser')
         logging.info("Soup parsed")
         article_root = soup.find(class_='mw-parser-output')
+        if article_root is None:
+            return
         rewrite_link_targets(soup, lambda x: supply_scheme_and_netloc(x, url))
         logging.info("Links rewritten")
         text = article_root.decode_contents()
