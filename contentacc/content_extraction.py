@@ -65,7 +65,7 @@ def get_response(url: str) -> Optional[str]:
 
 @cache_content
 def extract_content_from_html(url, response_text) -> ExtractedContent:
-    extractors = [MediaWikiContentExtractor()]
+    extractors = [MediaWikiContentExtractor(), DivParagraphContentExtractor()]
     rating_providers = [DummyContentRating()]
     extracted_content = []
     for extractor in extractors:
