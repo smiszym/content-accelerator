@@ -70,8 +70,12 @@ def extract_content_from_html(url, response_text) -> ExtractedContent:
     extracted_content = []
     for extractor in extractors:
         content = extractor(url, response_text)
+        if content is None:
+            continue
         rating = statistics.mean(rating(content) for rating in rating_providers)
         extracted_content.append((content, rating))
+    if len(extracted_content) == 0:
+        return
     best_content, _ = max(extracted_content, key=lambda x: x[1])
     return best_content
 
