@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import abort, Flask, request
 from flask_gzip import Gzip
 from contentacc.content_extraction import extract_content_from_url
 import logging
@@ -21,6 +21,10 @@ def minimized_page():
     logging.info("Got request for " + url)
     if url is None:
         return '{"error": "not found"}'
-    response = extract_content_from_url(url).to_json()
-    logging.info("Sending response for " + url)
-    return response
+    content = extract_content_from_url(url)
+    if content is not None:
+        response = content.to_json()
+        logging.info("Sending response for " + url)
+        return response
+    else:
+        abort(404)
