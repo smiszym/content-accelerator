@@ -12,6 +12,7 @@ requests = "*"
 redis = "*"
 bleach = "*"
 flask-gzip = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.7"
