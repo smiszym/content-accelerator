@@ -6,6 +6,7 @@ from contentacc.bs_utils import rewrite_link_targets
 from contentacc.extractors.link import link_extractor
 from contentacc.extractors.paragraph import \
     div_class_paragraph_extractor, div_id_paragraph_extractor
+from contentacc.semantics.guessing import main_content_classes
 from contentacc.url_utils import supply_scheme_and_netloc
 import json
 import logging
@@ -30,14 +31,10 @@ class ContentExtractor:
 class DivParagraphContentExtractor(ContentExtractor):
     def __call__(self, _, response_text):
         soup = BeautifulSoup(response_text, 'html.parser')
-        extracted_paragraphs = list(div_class_paragraph_extractor(
-            soup, ['article--text', 'articleBody', 'art_content',
-                   'article-story-content', 'article-body',
-                   'article_body']))
-        extracted_paragraphs += list(div_id_paragraph_extractor(
-            soup, ['article--text', 'articleBody', 'art_content',
-                   'article-story-content', 'article-body',
-                   'article_body', 'bodyContent']))
+        classes = main_content_classes(soup)
+        extracted_paragraphs = (
+            list(div_class_paragraph_extractor(soup, classes))
+            + list(div_id_paragraph_extractor(soup, classes)))
         return ExtractedContent(
             title=soup.title.string,
             text='\n'.join(f"<p>{par}</p>" for par in extracted_paragraphs),
