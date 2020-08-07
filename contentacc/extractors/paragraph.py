@@ -1,5 +1,6 @@
 def html_element_paragraph_extractor(html_element):
-    paragraphs = html_element.find_all('p')
+    paragraphs = html_element.find_all([
+        'p', 'section', 'h1', 'h2', 'h3', 'h4'])
     if len(paragraphs) > 0:
         for paragraph in paragraphs:
             yield paragraph.get_text()
