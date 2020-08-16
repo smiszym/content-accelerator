@@ -1,6 +1,6 @@
 from contentacc.extractors.content import DivParagraphContentExtractor, \
     MediaWikiContentExtractor
-from contentacc.content import ExtractedContent
+from contentacc.content import ExtractedContent, ContentMetadata
 from contentacc.rating.rating import DummyContentRating
 import logging
 import redis
@@ -32,13 +32,13 @@ def cache_response(f):
         response = html_cache.get(url)
         if response is not None:
             logging.info("Retrieved HTTP response from cache")
-            return response
+            return response, ContentMetadata(cache_used=True, fetch_time=None)
         else:
             if not cache_only:
                 logging.info("HTTP response not found in cache, downloading")
                 r = f(url)
                 html_cache.set(url, r)
-                return r
+                return r, ContentMetadata(cache_used=False, fetch_time=None)
     return wrapper
 
 
@@ -82,6 +82,6 @@ def extract_content_from_html(url, response_text) -> ExtractedContent:
 
 
 def extract_content_from_url(url: str) -> ExtractedContent:
-    response_text = get_response(url)
+    response_text, metadata = get_response(url)
     extracted_content = extract_content_from_html(url, response_text)
-    return extracted_content
+    return extracted_content, metadata

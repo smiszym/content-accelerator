@@ -22,9 +22,10 @@ def minimized_page():
     logging.info("Got request for " + url)
     if url is None:
         abort(404)
-    content = extract_content_from_url(url)
+    content, metadata = extract_content_from_url(url)
     if content is not None:
         response = json.dumps({
+            "cache_used": metadata.cache_used,
             "title": content.title,
             "text": content.text,
         })
