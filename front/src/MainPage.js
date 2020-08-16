@@ -45,6 +45,21 @@ export class MainPage extends Component {
         this.props.lastPageLoadTime &&
           <div>Ostatni artykuł załadowano w {this.props.lastPageLoadTime.toFixed(0)} ms</div>
       }
+      {
+        this.props.frontendCachedPages &&
+          <div>
+            Strony w cache'u po stronie frontendu:
+            <ul>
+              {
+                this.props.frontendCachedPages.map((page, i) => {
+                  return <li key={page.url}>
+                    <a>{page.title}</a> <a href={page.url}>(oryginał)</a>
+                  </li>;
+                })
+              }
+            </ul>
+          </div>
+      }
     </div>;
   }
 }

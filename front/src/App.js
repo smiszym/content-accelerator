@@ -12,9 +12,13 @@ export class App extends Component {
       url: undefined,
       content: undefined,
       lastPageLoadTime: undefined,
+      frontendCachedPages: undefined,
     };
     if (this.props.initialUrl)
       this.loadPageFromUrl(this.props.initialUrl);
+    CacheService.listOfEntries().then(list => {
+      this.setState({frontendCachedPages: list});
+    });
   }
   loadPageFromUrl(url, bypassPushState) {
     bypassPushState = bypassPushState || false;
@@ -62,6 +66,7 @@ export class App extends Component {
              lastPageLoadTime={this.state.lastPageLoadTime}
              url={this.state.url}
              content={this.state.content}
-             loadPageFromUrl={url => this.loadPageFromUrl(url)} />;
+             loadPageFromUrl={url => this.loadPageFromUrl(url)}
+             frontendCachedPages={this.state.frontendCachedPages} />;
   }
 }
