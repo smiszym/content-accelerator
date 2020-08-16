@@ -21,7 +21,7 @@ def minimized_page():
     url = request.args.get('url')
     logging.info("Got request for " + url)
     if url is None:
-        return '{"error": "not found"}'
+        abort(404)
     content = extract_content_from_url(url)
     if content is not None:
         response = json.dumps({
