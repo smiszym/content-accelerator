@@ -24,6 +24,7 @@ export const FetchService = {
             console.log("Put to cache: " + FetchService.currentlyFetchedUrl);
             FetchService.observers = FetchService.observers.filter(observer => {
               if (observer.url === FetchService.currentlyFetchedUrl) {
+                content.url = FetchService.currentlyFetchedUrl;
                 observer.resolve(content);
                 return false;
               } else {
