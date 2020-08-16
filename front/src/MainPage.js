@@ -21,9 +21,12 @@ export class MainPage extends Component {
               słabego łącza.
             </p>
       }
-      <div>
-        Oryginalny artykuł: <a href={this.props.url}>{this.props.url}</a>
-      </div>
+      {
+        this.props.content
+        && <div>
+             Oryginalny artykuł: <a href={this.props.content.url}>{this.props.content.url}</a>
+           </div>
+      }
       <NewUrlPrompt loadPageFromUrl={this.props.loadPageFromUrl} />
       <AvailableSpaceView />
       {

@@ -9,7 +9,6 @@ export class App extends Component {
     super(props);
     this.state = {
       loading: 'none',
-      url: undefined,
       content: undefined,
       lastPageLoadTime: undefined,
       frontendCachedPages: undefined,
@@ -35,7 +34,7 @@ export class App extends Component {
         }
         ContentRepository.getContent(url)
         .then(content => {
-          this.setState({ loading: 'none', url: url, content: content });
+          this.setState({ loading: 'none', content: content });
           if (!bypassPushState)
             history.pushState(undefined, "", "?url=" + encodeURIComponent(url));
           if (performance.mark !== undefined) {
@@ -64,7 +63,6 @@ export class App extends Component {
     return <MainPage
              loadingState={this.state.loading}
              lastPageLoadTime={this.state.lastPageLoadTime}
-             url={this.state.url}
              content={this.state.content}
              loadPageFromUrl={url => this.loadPageFromUrl(url)}
              frontendCachedPages={this.state.frontendCachedPages} />;
