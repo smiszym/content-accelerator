@@ -1,5 +1,6 @@
 from contentacc.extractors.content import DivParagraphContentExtractor, \
-    ExtractedContent, MediaWikiContentExtractor
+    MediaWikiContentExtractor
+from contentacc.content import ExtractedContent
 from contentacc.rating.rating import DummyContentRating
 import logging
 import redis
