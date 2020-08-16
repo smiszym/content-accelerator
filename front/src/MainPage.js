@@ -21,21 +21,6 @@ export class MainPage extends Component {
               słabego łącza.
             </p>
       }
-      {
-        content && content.links.length > 0 &&
-          <div>
-            Linki:
-            <ol>
-              {
-                content.links.map((link, i) => {
-                  return <li>
-                    <a>{link.text}</a> <a href={link.url}>(oryginał)</a>
-                  </li>;
-                })
-              }
-            </ol>
-          </div>
-      }
       <div>
         Oryginalny artykuł: <a href={this.props.url}>{this.props.url}</a>
       </div>

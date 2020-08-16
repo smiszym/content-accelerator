@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from collections import namedtuple
 
 from contentacc.bs_utils import rewrite_link_targets
-from contentacc.extractors.link import link_extractor
 from contentacc.extractors.paragraph import \
     div_class_paragraph_extractor, div_id_paragraph_extractor
 from contentacc.semantics.guessing import main_content_classes
@@ -13,13 +12,13 @@ import logging
 
 
 class ExtractedContent (namedtuple('ExtractedContent',
-                                   'title text links')):
+                                   'title text')):
     def to_json(self):
         logging.info("Preparing JSON dump")
         return json.dumps({
             "title": self.title,
             "text": self.text,
-            "links": [link.as_dict() for link in self.links]})
+        })
 
 
 class ContentExtractor:
@@ -36,8 +35,7 @@ class DivParagraphContentExtractor(ContentExtractor):
             + list(div_id_paragraph_extractor(soup, classes)))
         return ExtractedContent(
             title=soup.title.string,
-            text='\n'.join(f"<p>{par}</p>" for par in extracted_paragraphs),
-            links=list(link_extractor(soup)))
+            text='\n'.join(f"<p>{par}</p>" for par in extracted_paragraphs))
 
 
 class MediaWikiContentExtractor(ContentExtractor):
@@ -62,7 +60,6 @@ class MediaWikiContentExtractor(ContentExtractor):
         logging.info("Content cleaned")
         result = ExtractedContent(
             title=soup.title.string,
-            text=cleaned_text,
-            links=link_extractor(soup))
+            text=cleaned_text)
         logging.info("Finished media wiki processing")
         return result
