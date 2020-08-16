@@ -14,16 +14,18 @@ export class App extends Component {
       frontendCachedPages: undefined,
     };
     if (this.props.initialUrl)
-      this.loadPageFromUrl(this.props.initialUrl);
+      this.loadPageFromUrl(this.props.initialUrl, false, true);
     CacheService.listOfEntries().then(list => {
       this.setState({frontendCachedPages: list});
     });
   }
-  loadPageFromUrl(url, bypassPushState) {
+  loadPageFromUrl(url, bypassPushState, isInitialLoad) {
     bypassPushState = bypassPushState || false;
+    isInitialLoad = isInitialLoad || false;
     if (performance.mark !== undefined) {
       performance.mark("page-requested");
-      this.setState({ lastPageLoadTime: undefined });
+      if (!isInitialLoad)
+        this.setState({ lastPageLoadTime: undefined });
     }
 
     // First check if the page is already cached
