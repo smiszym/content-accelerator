@@ -27,6 +27,14 @@ export class MainPage extends Component {
              Oryginalny artykuł: <a href={this.props.content.url}>{this.props.content.url}</a>
            </div>
       }
+      {
+        this.props.content
+        && this.props.content.cache_used === true && <div>Artykuł znajdował się w cache backendu</div>
+      }
+      {
+        this.props.content
+        && this.props.content.cache_used === false && <div>Artykułu nie było w cache backendu; został pobrany</div>
+      }
       <NewUrlPrompt loadPageFromUrl={this.props.loadPageFromUrl} />
       <AvailableSpaceView />
       {
