@@ -13,13 +13,12 @@ import logging
 
 
 class ExtractedContent (namedtuple('ExtractedContent',
-                                   'title text image_urls links')):
+                                   'title text links')):
     def to_json(self):
         logging.info("Preparing JSON dump")
         return json.dumps({
             "title": self.title,
             "text": self.text,
-            "image_urls": self.image_urls,
             "links": [link.as_dict() for link in self.links]})
 
 
@@ -38,7 +37,6 @@ class DivParagraphContentExtractor(ContentExtractor):
         return ExtractedContent(
             title=soup.title.string,
             text='\n'.join(f"<p>{par}</p>" for par in extracted_paragraphs),
-            image_urls=[img.get('src') for img in soup.find_all('img')],
             links=list(link_extractor(soup)))
 
 
@@ -65,7 +63,6 @@ class MediaWikiContentExtractor(ContentExtractor):
         result = ExtractedContent(
             title=soup.title.string,
             text=cleaned_text,
-            image_urls=[img.get('src') for img in soup.find_all('img')],
             links=link_extractor(soup))
         logging.info("Finished media wiki processing")
         return result
