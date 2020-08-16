@@ -7,18 +7,11 @@ from contentacc.extractors.paragraph import \
     div_class_paragraph_extractor, div_id_paragraph_extractor
 from contentacc.semantics.guessing import main_content_classes
 from contentacc.url_utils import supply_scheme_and_netloc
-import json
 import logging
 
 
-class ExtractedContent (namedtuple('ExtractedContent',
-                                   'title text')):
-    def to_json(self):
-        logging.info("Preparing JSON dump")
-        return json.dumps({
-            "title": self.title,
-            "text": self.text,
-        })
+class ExtractedContent (namedtuple('ExtractedContent', 'title text')):
+    pass
 
 
 class ContentExtractor:
