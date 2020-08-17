@@ -66,6 +66,14 @@ def get_response(url: str) -> Optional[str]:
     return r.text
 
 
+def remove_from_caches(url: str):
+    try:
+        content_cache.pop(url)
+    except KeyError:
+        pass
+    html_cache.delete(url)
+
+
 @cache_content
 def extract_content_from_html(url, response_text) -> ExtractedContent:
     extractors = [MediaWikiContentExtractor(), DivParagraphContentExtractor()]

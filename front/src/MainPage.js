@@ -4,6 +4,7 @@ import { CacheService } from "./CacheService";
 import { ContentView } from "./ContentView";
 import { LoadingStateIndicator } from "./LoadingStateIndicator";
 import { NewUrlPrompt } from "./NewUrlPrompt";
+import {FetchService} from "./FetchService";
 
 export class MainPage extends Component {
   render() {
@@ -40,6 +41,15 @@ export class MainPage extends Component {
         this.props.content
         && <button onClick={evt => { CacheService.removeFromCache(this.props.content.url); }} >
              Usuń z cache frontendu
+           </button>
+      }
+      {
+        this.props.content
+        && <button onClick={evt => {
+                 CacheService.removeFromCache(this.props.content.url);
+                 FetchService.removeFromBackendCache(this.props.content.url);
+               }} >
+             Usuń z cache frontendu oraz backendu
            </button>
       }
       <NewUrlPrompt loadPageFromUrl={this.props.loadPageFromUrl} />

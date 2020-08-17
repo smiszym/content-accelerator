@@ -1,6 +1,7 @@
 from flask import abort, Flask, request
 from flask_gzip import Gzip
-from contentacc.content_extraction import extract_content_from_url
+from contentacc.content_extraction import \
+    extract_content_from_url, remove_from_caches
 import json
 import logging
 
@@ -33,3 +34,13 @@ def minimized_page():
         return response
     else:
         abort(404)
+
+
+@app.route('/v1/minimized-page', methods=['DELETE'])
+def minimized_page_deleter():
+    url = request.args.get('url')
+    logging.info("Got request to delete from cache: " + url)
+    if url is None:
+        abort(404)
+    remove_from_caches(url)
+    return "OK"

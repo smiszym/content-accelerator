@@ -64,6 +64,9 @@ export const FetchService = {
         });
     });
   },
+  removeFromBackendCache: function (url) {
+    axios.delete('/v1/minimized-page', {params: {url: url}});
+  },
   currentlyFetchedUrl: undefined,
   observers: []
 };
