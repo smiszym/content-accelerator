@@ -42,17 +42,19 @@ def cache_response(f):
     return wrapper
 
 
+content_cache = {}
+
+
 def cache_content(f):
-    contents = {}
     @wraps(f)
     def wrapper(url, response_text, bypass_cache=False):
-        if bypass_cache or not contents.get(url):
+        if bypass_cache or not content_cache.get(url):
             c = f(url, response_text)
-            contents[url] = c
+            content_cache[url] = c
             logging.info("Extracted content for HTTP response now")
             return c
         logging.info("Retrieving extracted content from cache")
-        return contents[url]
+        return content_cache[url]
     return wrapper
 
 
