@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AvailableSpaceView } from "./AvailableSpaceView";
+import { CacheService } from "./CacheService";
 import { ContentView } from "./ContentView";
 import { LoadingStateIndicator } from "./LoadingStateIndicator";
 import { NewUrlPrompt } from "./NewUrlPrompt";
@@ -34,6 +35,12 @@ export class MainPage extends Component {
       {
         this.props.content
         && this.props.content.cache_used === false && <div>Artykułu nie było w cache backendu; został pobrany</div>
+      }
+      {
+        this.props.content
+        && <button onClick={evt => { CacheService.removeFromCache(this.props.content.url); }} >
+             Usuń z cache frontendu
+           </button>
       }
       <NewUrlPrompt loadPageFromUrl={this.props.loadPageFromUrl} />
       <AvailableSpaceView />

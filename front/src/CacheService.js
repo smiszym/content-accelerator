@@ -1,4 +1,4 @@
-import { get, set, keys } from 'idb-keyval';
+import { get, set, del, keys } from 'idb-keyval';
 
 export const CacheService = {
   isInCache: function (url) {
@@ -24,6 +24,9 @@ export const CacheService = {
       .catch(err => {
         // TODO Handle failure to write to the cache
       });
+  },
+  removeFromCache: function (url) {
+    del(url);
   },
   listOfEntries: function () {
     return new Promise((resolve, reject) => {
