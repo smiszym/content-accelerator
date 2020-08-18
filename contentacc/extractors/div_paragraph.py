@@ -43,10 +43,20 @@ def delete_duplicates(seq):
     del seq[pos:]
 
 
+def all_classes_in_soup(soup):
+    result = set()
+    for element in soup.find_all():
+        try:
+            result.update(element['class'])
+        except KeyError:
+            pass
+    return result
+
+
 class DivParagraphContentExtractor(ContentExtractor):
     def __call__(self, _, response_text):
         soup = BeautifulSoup(response_text, 'html.parser')
-        classes = main_content_classes(soup)
+        classes = main_content_classes(all_classes_in_soup(soup))
         extracted_paragraphs = (
             list(div_class_paragraph_extractor(soup, classes))
             + list(div_id_paragraph_extractor(soup, classes)))
