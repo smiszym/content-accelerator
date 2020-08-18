@@ -1,5 +1,5 @@
-from contentacc.extractors.content import DivParagraphContentExtractor, \
-    MediaWikiContentExtractor
+from contentacc.extractors.mediawiki import MediaWikiContentExtractor
+from contentacc.extractors.div_paragraph import DivParagraphContentExtractor
 from contentacc.content import ExtractedContent, ContentMetadata
 import logging
 import redis

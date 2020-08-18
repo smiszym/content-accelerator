@@ -3,28 +3,9 @@ from bs4 import BeautifulSoup
 
 from contentacc.bs_utils import rewrite_link_targets
 from contentacc.content import ExtractedContent
-from contentacc.extractors.paragraph import \
-    div_class_paragraph_extractor, div_id_paragraph_extractor
-from contentacc.semantics.guessing import main_content_classes
+from contentacc.extractors import ContentExtractor
 from contentacc.url_utils import supply_scheme_and_netloc
 import logging
-
-
-class ContentExtractor:
-    def __call__(self, url, response_text):
-        raise NotImplementedError
-
-
-class DivParagraphContentExtractor(ContentExtractor):
-    def __call__(self, _, response_text):
-        soup = BeautifulSoup(response_text, 'html.parser')
-        classes = main_content_classes(soup)
-        extracted_paragraphs = (
-            list(div_class_paragraph_extractor(soup, classes))
-            + list(div_id_paragraph_extractor(soup, classes)))
-        return ExtractedContent(
-            title=soup.title.string,
-            text='\n'.join(f"<p>{par}</p>" for par in extracted_paragraphs))
 
 
 class MediaWikiContentExtractor(ContentExtractor):
