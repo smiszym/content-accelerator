@@ -14,3 +14,10 @@ def html_classes(soup):
         if element_classes is not None:
             classes.update(element_classes)
     return classes
+
+
+def sort_in_html_order(tags, soup):
+    def position_in_soup(soup):
+        all_elements = soup.find_all()
+        return lambda element: all_elements.index(element)
+    return sorted(tags, key=position_in_soup(soup))
