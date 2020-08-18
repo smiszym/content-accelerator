@@ -6,8 +6,8 @@ from contentacc.semantics.guessing import main_content_classes
 
 
 def html_element_paragraph_extractor(html_element):
-    paragraphs = html_element.find_all([
-        'p', 'section', 'h1', 'h2', 'h3', 'h4'])
+    content_tags = ['p', 'section', 'h1', 'h2', 'h3', 'h4']
+    paragraphs = html_element.find_all(content_tags)
     if len(paragraphs) > 0:
         for paragraph in paragraphs:
             # Ignore HTML elements that have sub-elements
@@ -15,7 +15,8 @@ def html_element_paragraph_extractor(html_element):
                 yield paragraph
     else:
         # Ignore HTML elements that have sub-elements
-        if len(html_element) == 1:
+        if (len(html_element) == 1
+                and html_element.name in content_tags + ['div']):
             yield html_element
 
 
