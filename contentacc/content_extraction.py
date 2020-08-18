@@ -1,3 +1,4 @@
+from contentacc.extractors.article_tag import ArticleTagContentExtractor
 from contentacc.extractors.mediawiki import MediaWikiContentExtractor
 from contentacc.extractors.div_paragraph import DivParagraphContentExtractor
 from contentacc.content import ExtractedContent, ContentMetadata
@@ -74,7 +75,10 @@ def remove_from_caches(url: str):
 
 @cache_content
 def extract_content_from_html(url, response_text) -> ExtractedContent:
-    extractors = [MediaWikiContentExtractor(), DivParagraphContentExtractor()]
+    extractors = [
+        MediaWikiContentExtractor(),
+        DivParagraphContentExtractor(),
+        ArticleTagContentExtractor()]
     for extractor in extractors:
         content = extractor(url, response_text)
         if content is not None:
