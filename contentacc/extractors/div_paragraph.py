@@ -10,9 +10,13 @@ def html_element_paragraph_extractor(html_element):
         'p', 'section', 'h1', 'h2', 'h3', 'h4'])
     if len(paragraphs) > 0:
         for paragraph in paragraphs:
-            yield paragraph
+            # Ignore HTML elements that have sub-elements
+            if len(paragraph) == 1:
+                yield paragraph
     else:
-        yield html_element
+        # Ignore HTML elements that have sub-elements
+        if len(html_element) == 1:
+            yield html_element
 
 
 def div_class_paragraph_extractor(soup, cls):
