@@ -1,12 +1,10 @@
 from contentacc.extractors.content import DivParagraphContentExtractor, \
     MediaWikiContentExtractor
 from contentacc.content import ExtractedContent, ContentMetadata
-from contentacc.rating.rating import DummyContentRating
 import logging
 import redis
 import requests
 from functools import wraps
-import statistics
 from typing import Optional
 
 
@@ -77,18 +75,10 @@ def remove_from_caches(url: str):
 @cache_content
 def extract_content_from_html(url, response_text) -> ExtractedContent:
     extractors = [MediaWikiContentExtractor(), DivParagraphContentExtractor()]
-    rating_providers = [DummyContentRating()]
-    extracted_content = []
     for extractor in extractors:
         content = extractor(url, response_text)
-        if content is None:
-            continue
-        rating = statistics.mean(rating(content) for rating in rating_providers)
-        extracted_content.append((content, rating))
-    if len(extracted_content) == 0:
-        return
-    best_content, _ = max(extracted_content, key=lambda x: x[1])
-    return best_content
+        if content is not None:
+            return content
 
 
 def extract_content_from_url(url: str) -> ExtractedContent:
