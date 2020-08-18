@@ -5,7 +5,7 @@ import logging
 import redis
 import requests
 from functools import wraps
-from typing import Optional
+from typing import Optional, Tuple
 
 
 def _setup_redis(redis):
@@ -81,7 +81,8 @@ def extract_content_from_html(url, response_text) -> ExtractedContent:
             return content
 
 
-def extract_content_from_url(url: str) -> ExtractedContent:
+def extract_content_from_url(url: str) -> Tuple[ExtractedContent,
+                                                ContentMetadata]:
     response_text, metadata = get_response(url)
     extracted_content = extract_content_from_html(url, response_text)
     return extracted_content, metadata
