@@ -1,5 +1,4 @@
 import bleach
-from bs4 import BeautifulSoup
 
 from contentacc.bs_utils import rewrite_link_targets
 from contentacc.content import ExtractedContent
@@ -9,10 +8,7 @@ import logging
 
 
 class MediaWikiContentExtractor(ContentExtractor):
-    def __call__(self, url, response_text):
-        logging.info("Starting media wiki processing")
-        soup = BeautifulSoup(response_text, 'html.parser')
-        logging.info("Soup parsed")
+    def __call__(self, url, soup):
         article_root = soup.find(class_='mw-parser-output')
         if article_root is None:
             return

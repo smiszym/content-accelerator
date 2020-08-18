@@ -1,5 +1,3 @@
-from bs4 import BeautifulSoup
-
 from contentacc.bs_utils import sort_in_html_order
 from contentacc.content import ExtractedContent
 from contentacc.extractors import ContentExtractor
@@ -44,8 +42,7 @@ def all_classes_in_soup(soup):
 
 
 class DivParagraphContentExtractor(ContentExtractor):
-    def __call__(self, _, response_text):
-        soup = BeautifulSoup(response_text, 'html.parser')
+    def __call__(self, _, soup):
         classes = content_classes(all_classes_in_soup(soup))
         if len(classes) < 2:
             return  # Not a good indicator of finding something

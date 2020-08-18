@@ -1,3 +1,3 @@
 class ContentExtractor:
-    def __call__(self, url, response_text):
+    def __call__(self, url, soup):
         raise NotImplementedError

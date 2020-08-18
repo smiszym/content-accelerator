@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 from contentacc.extractors.article_tag import ArticleTagContentExtractor
 from contentacc.extractors.mediawiki import MediaWikiContentExtractor
 from contentacc.extractors.div_paragraph import DivParagraphContentExtractor
@@ -79,8 +80,9 @@ def extract_content_from_html(url, response_text) -> ExtractedContent:
         MediaWikiContentExtractor(),
         DivParagraphContentExtractor(),
         ArticleTagContentExtractor()]
+    soup = BeautifulSoup(response_text, 'html.parser')
     for extractor in extractors:
-        content = extractor(url, response_text)
+        content = extractor(url, soup)
         if content is not None:
             return content
 

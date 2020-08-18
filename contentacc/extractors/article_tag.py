@@ -1,5 +1,3 @@
-from bs4 import BeautifulSoup
-
 from contentacc.content import ExtractedContent
 from contentacc.extractors import ContentExtractor
 from contentacc.extractors.div_paragraph import \
@@ -7,8 +5,7 @@ from contentacc.extractors.div_paragraph import \
 
 
 class ArticleTagContentExtractor(ContentExtractor):
-    def __call__(self, _, response_text):
-        soup = BeautifulSoup(response_text, 'html.parser')
+    def __call__(self, _, soup):
         article_tags = soup.find_all('article')
         if len(article_tags) != 1:
             # 0 - nothing found; more than 1 - which one to choose?
