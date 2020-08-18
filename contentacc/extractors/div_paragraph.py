@@ -10,9 +10,9 @@ def html_element_paragraph_extractor(html_element):
         'p', 'section', 'h1', 'h2', 'h3', 'h4'])
     if len(paragraphs) > 0:
         for paragraph in paragraphs:
-            yield paragraph.get_text()
+            yield paragraph
     else:
-        yield html_element.get_text()
+        yield html_element
 
 
 def div_class_paragraph_extractor(soup, cls):
@@ -27,6 +27,17 @@ def div_id_paragraph_extractor(soup, id):
             yield paragraph
 
 
+def delete_duplicates(seq):
+    seen = set()
+    pos = 0
+    for item in seq:
+        if item not in seen:
+            seen.add(item)
+            seq[pos] = item
+            pos += 1
+    del seq[pos:]
+
+
 class DivParagraphContentExtractor(ContentExtractor):
     def __call__(self, _, response_text):
         soup = BeautifulSoup(response_text, 'html.parser')
@@ -34,6 +45,10 @@ class DivParagraphContentExtractor(ContentExtractor):
         extracted_paragraphs = (
             list(div_class_paragraph_extractor(soup, classes))
             + list(div_id_paragraph_extractor(soup, classes)))
+        delete_duplicates(extracted_paragraphs)
+        final_text = '\n'.join(
+            f"<p>{par.get_text(strip=True)}</p>"
+            for par in extracted_paragraphs)
         return ExtractedContent(
             title=soup.title.string,
-            text='\n'.join(f"<p>{par}</p>" for par in extracted_paragraphs))
+            text=final_text)
