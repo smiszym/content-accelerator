@@ -32,13 +32,14 @@ def cache_response(f):
         response = html_cache.get(url)
         if response is not None:
             logging.info("Retrieved HTTP response from cache")
-            return response, ContentMetadata(cache_used=True, fetch_time=None)
+            return response, ContentMetadata(
+                cache_used='back', fetch_time=None)
         else:
             if not cache_only:
                 logging.info("HTTP response not found in cache, downloading")
                 r = f(url)
                 html_cache.set(url, r)
-                return r, ContentMetadata(cache_used=False, fetch_time=None)
+                return r, ContentMetadata(cache_used='none', fetch_time=None)
     return wrapper
 
 

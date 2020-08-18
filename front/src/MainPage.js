@@ -31,11 +31,15 @@ export class MainPage extends Component {
       }
       {
         this.props.content
-        && this.props.content.cache_used === true && <div>Artykuł znajdował się w cache backendu</div>
+        && this.props.content.cache_used === 'front' && <div>Artykuł znajdował się w cache frontendu</div>
       }
       {
         this.props.content
-        && this.props.content.cache_used === false && <div>Artykułu nie było w cache backendu; został pobrany</div>
+        && this.props.content.cache_used === 'back' && <div>Artykuł znajdował się w cache backendu</div>
+      }
+      {
+        this.props.content
+        && this.props.content.cache_used === 'none' && <div>Artykułu nie było w cache backendu; został pobrany</div>
       }
       {
         this.props.content

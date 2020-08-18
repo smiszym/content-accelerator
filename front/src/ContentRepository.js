@@ -10,6 +10,7 @@ export const ContentRepository = {
       CacheService.getFromCache(url)
         .then(value => {
           if (value) {
+            value.cache_used = 'front';
             resolve(value);
           } else {
             // The content is not in cache
