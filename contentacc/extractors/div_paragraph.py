@@ -47,9 +47,13 @@ class DivParagraphContentExtractor(ContentExtractor):
     def __call__(self, _, response_text):
         soup = BeautifulSoup(response_text, 'html.parser')
         classes = content_classes(all_classes_in_soup(soup))
+        if len(classes) < 2:
+            return  # Not a good indicator of finding something
         extracted_paragraphs = sort_in_html_order(
             set(div_class_paragraph_extractor(soup, classes))
             | set(div_id_paragraph_extractor(soup, classes)), soup)
+        if len(extracted_paragraphs) <= 3:
+            return  # Bad result; assume we didn't manage to extract content
         final_text = '\n'.join(
             f"<p>{par.get_text(strip=True)}</p>"
             for par in extracted_paragraphs)
