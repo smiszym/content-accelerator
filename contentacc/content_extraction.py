@@ -57,7 +57,7 @@ def cache_content(f):
 
 
 @cache_response
-def get_response(url: str) -> Optional[str]:
+def get_response(url: str):
     r = requests.get(url)
     if r.status_code != 200:
         return None
