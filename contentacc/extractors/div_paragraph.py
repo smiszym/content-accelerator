@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from contentacc.bs_utils import sort_in_html_order
 from contentacc.content import ExtractedContent
 from contentacc.extractors import ContentExtractor
-from contentacc.semantics.guessing import main_content_classes
+from contentacc.semantics.guessing import content_classes
 
 
 def html_element_paragraph_extractor(html_element):
@@ -46,7 +46,7 @@ def all_classes_in_soup(soup):
 class DivParagraphContentExtractor(ContentExtractor):
     def __call__(self, _, response_text):
         soup = BeautifulSoup(response_text, 'html.parser')
-        classes = main_content_classes(all_classes_in_soup(soup))
+        classes = content_classes(all_classes_in_soup(soup))
         extracted_paragraphs = sort_in_html_order(
             set(div_class_paragraph_extractor(soup, classes))
             | set(div_id_paragraph_extractor(soup, classes)), soup)
