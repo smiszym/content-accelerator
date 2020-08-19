@@ -20,6 +20,7 @@ export class App extends Component {
     });
   }
   loadPageFromUrl(url, bypassPushState, isInitialLoad) {
+    console.log("(page) " + Date.now() + ": Got request to display page: " + url);
     bypassPushState = bypassPushState || false;
     isInitialLoad = isInitialLoad || false;
     if (performance.mark !== undefined) {
@@ -31,11 +32,13 @@ export class App extends Component {
     // First check if the page is already cached
     CacheService.isInCache(url)
       .then(isAvailable => {
+        console.log("isAvailable: " + isAvailable);
         if (!isAvailable) {
           this.setState({ loading: 'fetch' });
         }
         ContentRepository.getContent(url)
         .then(content => {
+          console.log("(page) " + Date.now() + ": Page displayed: " + url);
           this.setState({ loading: 'none', content: content });
           if (!bypassPushState)
             history.pushState(undefined, "", "?url=" + encodeURIComponent(url));
